@@ -10,6 +10,11 @@ public class TankCtrl : MonoBehaviour
     public float speed = 10.0f;
     private PhotonView pv;
 
+    public Transform firePos;
+    public GameObject cannon;
+
+    public Transform cannonMesh;
+
     void Start()
     {
         tr = GetComponent<Transform>();
@@ -31,11 +36,32 @@ public class TankCtrl : MonoBehaviour
     {
         if (pv.IsMine)
         {
-        float v = Input.GetAxis("Vertical");
-        float h = Input.GetAxis("Horizontal");
 
-        tr.Translate(Vector3.forward * Time.deltaTime * speed * v);
-        tr.Rotate(Vector3.up * Time.deltaTime * 100.0f * h);
-        }
+            //이동 및 회전
+            float v = Input.GetAxis("Vertical");
+            float h = Input.GetAxis("Horizontal");
+
+            tr.Translate(Vector3.forward * Time.deltaTime * speed * v);
+            tr.Rotate(Vector3.up * Time.deltaTime * 100.0f * h);
+        
+            //포탄 발사 로직
+            if (Input.GetMouseButtonDown(0))
+            {
+                pv.RPC("Fire", RpcTarget.AllViaServer, null);
+            }
+
+
+            //포신 회전 설정
+            float r = Input.GetAxis("Mouse ScrollWheel");
+            cannonMesh.Rotate(Vector3.right * Time.deltaTime * r * 500.0f);
+
+       }
+    }
+
+    [PunRPC]
+    void Fire()
+    {
+        Instantiate(cannon, firePos.position, firePos.rotation);
+    
     }
 }

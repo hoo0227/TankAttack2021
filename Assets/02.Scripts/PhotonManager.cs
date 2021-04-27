@@ -34,8 +34,14 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Debug.Log($"code={returnCode}, msg={message}");
        
+        //
+        RoomOptions ro = new RoomOptions();
+        ro.IsOpen = true;
+        ro.IsVisible = true;
+        ro.MaxPlayers = 30;
+
         //룸 생성
-        PhotonNetwork.CreateRoom("My Room");
+        PhotonNetwork.CreateRoom("My Room", ro);
     }
 
     //룸 생성 완료 콜백
