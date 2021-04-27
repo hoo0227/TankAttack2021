@@ -102,15 +102,4 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom();
     }
 
-
-
-
-
-
-
-
-
-
-
-    
 }
