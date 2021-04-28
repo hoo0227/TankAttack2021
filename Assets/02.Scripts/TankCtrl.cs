@@ -14,6 +14,7 @@ public class TankCtrl : MonoBehaviour
     public GameObject cannon;
 
     public Transform cannonMesh;
+    public TMPro.TMP_Text userIdText;
 
 
     public AudioClip fireSfx;
@@ -25,6 +26,7 @@ public class TankCtrl : MonoBehaviour
         tr = GetComponent<Transform>();
         pv = GetComponent<PhotonView>();
         audio = GetComponent<AudioSource>();
+        userIdText.text = pv.Owner.NickName;
 
         if (pv.IsMine)
         {
@@ -74,4 +76,6 @@ public class TankCtrl : MonoBehaviour
         
     
     }
+
+    
 }
