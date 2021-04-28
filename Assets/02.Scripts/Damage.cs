@@ -58,7 +58,7 @@ public class Damage : MonoBehaviour
         GetComponent<BoxCollider>().enabled = true;
         if (pv.IsMine)
         {
-             GetComponent<BoxCollider>().enabled = false;
+             GetComponent<Rigidbody>().isKinematic = false;
         }
        
         foreach (var mesh in renderers) mesh.enabled = true;
