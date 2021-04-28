@@ -15,10 +15,14 @@ public class TankCtrl : MonoBehaviour
 
     public Transform cannonMesh;
 
+    private new AudioSource audio;
+    public AudioClip fireSfx;
+
     void Start()
     {
         tr = GetComponent<Transform>();
         pv = GetComponent<PhotonView>();
+        audio = GetComponent<AudioSource>();
 
         if (pv.IsMine)
         {
@@ -62,6 +66,8 @@ public class TankCtrl : MonoBehaviour
     void Fire()
     {
         Instantiate(cannon, firePos.position, firePos.rotation);
+
+        audio.PlayOneShot(fireSfx);
     
     }
 }
