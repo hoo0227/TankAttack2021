@@ -15,8 +15,10 @@ public class TankCtrl : MonoBehaviour
 
     public Transform cannonMesh;
 
-    private new AudioSource audio;
+
     public AudioClip fireSfx;
+    public new AudioSource audio;
+    
 
     void Start()
     {
@@ -27,7 +29,7 @@ public class TankCtrl : MonoBehaviour
         if (pv.IsMine)
         {
             Camera.main.GetComponent<SmoothFollow>().target = tr.Find("CamPivot").transform;
-        GetComponent<Rigidbody>().centerOfMass = new Vector3(0, -0.5f, 0);
+            GetComponent<Rigidbody>().centerOfMass = new Vector3(0, -0.5f, 0);
         }
 
         else 
@@ -51,7 +53,7 @@ public class TankCtrl : MonoBehaviour
             //포탄 발사 로직
             if (Input.GetMouseButtonDown(0))
             {
-                pv.RPC("Fire", RpcTarget.AllViaServer, null);
+                pv.RPC("Fire", RpcTarget.AllViaServer, pv.Owner.NickName);
             }
 
 
@@ -63,11 +65,13 @@ public class TankCtrl : MonoBehaviour
     }
 
     [PunRPC]
-    void Fire()
+    void Fire(string shooterName)
     {
-        Instantiate(cannon, firePos.position, firePos.rotation);
+        audio?.PlayOneShot(fireSfx);
+        GameObject _cannon = Instantiate(cannon, firePos.position, firePos.rotation);
+        _cannon.GetComponent<Cannon>().shooter = shooterName;
 
-        audio.PlayOneShot(fireSfx);
+        
     
     }
 }
