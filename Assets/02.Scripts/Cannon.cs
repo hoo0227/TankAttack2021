@@ -4,23 +4,21 @@ using UnityEngine;
 
 public class Cannon : MonoBehaviour
 {
-    public float speed = 2000.0f;
-    Rigidbody rb;
-
-    public string shooter;
-
     public GameObject expEffect;
+    public float speed = 2000.0f;
+    public string shooter;
 
     void Start()
     {
-        rb=GetComponent<Rigidbody>();
-         rb.AddRelativeForce(Vector3.forward * speed);
+        GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * speed);        
     }
 
     void OnCollisionEnter(Collision coll)
     {
-        GameObject obj = Instantiate(expEffect,transform.position, Quaternion.identity);
+        GameObject obj = Instantiate(expEffect,
+                                     transform.position,
+                                     Quaternion.identity);
         Destroy(obj, 3.0f);
-        Destroy(this.gameObject);
+        Destroy(this.gameObject);   
     }
 }

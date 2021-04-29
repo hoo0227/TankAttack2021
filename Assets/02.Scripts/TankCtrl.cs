@@ -64,6 +64,22 @@ public class TankCtrl : MonoBehaviour, IPunObservable
             cannonMesh.Rotate(Vector3.right * Time.deltaTime * r * 500.0f);
 
        }
+
+       else
+       {
+        if (  (tr.position - recievePos).sqrMagnitude > 3.0f * 3.0f)
+        {
+            tr.position = recievePos;
+        }
+
+        else
+        {
+            tr.position = Vector3.Lerp(tr.position, recievePos, Time.deltaTime * 10.0f);
+        }
+        
+        tr.rotation = Quaternion.Slerp(tr.rotation, recieveRot, Time.deltaTime * 10.0f);
+       }
+       
     }
 
     [PunRPC]
