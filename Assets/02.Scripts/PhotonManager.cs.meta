@@ -3,7 +3,12 @@ guid: fec78f1f0ae0d654199ef55003bf0f16
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - userIdText: {instanceID: 0}
+  - roomNameText: {instanceID: 0}
+  - roomPrefab: {fileID: 2588122788385420484, guid: 8d415eff126827d45bac40b06f7792c6,
+      type: 3}
+  - scrollContent: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

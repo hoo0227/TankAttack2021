@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityStandardAssets.Utility;
 
-public class TankCtrl : MonoBehaviour
+public class TankCtrl : MonoBehaviour, IPunObservable
 {
     private Transform tr;
     public float speed = 10.0f;
@@ -77,5 +77,20 @@ public class TankCtrl : MonoBehaviour
     
     }
 
-    
+    Vector3 recievePos = Vector3.zero;
+    Quaternion recieveRot = Quaternion.identity;
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting) //PhotonView IsMine == true
+        {
+            stream.SendNext(tr.position); //위치값
+            stream.SendNext(tr.rotation); //회전값
+        }
+
+        else{
+            recievePos = (Vector3) stream.ReceiveNext();
+            recieveRot = (Quaternion) stream.ReceiveNext();
+        }
+    }
 }

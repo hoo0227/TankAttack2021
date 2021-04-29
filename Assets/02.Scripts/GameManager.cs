@@ -7,14 +7,27 @@ using UnityEngine.UI;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 
+
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    [Header("RoomInof")]
     public TMP_Text roomNameText;
     public TMP_Text connectInfoText;
     public Button exitButton;
     public TMP_Text messageText;
+
+    [Header("Chatting UI")]
+    private PhotonView pv;
+    public TMP_Text chatListText;
+    public TMP_InputField msgIF;
+
+
+
+
     //싱글턴 변수
     public static GameManager instance = null;
+
+    
 
     void Awake()
     {
@@ -30,6 +43,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        pv = GetComponent<PhotonView>();
+        //pv = photonView;
         SetRoomInfo();
     }
 
@@ -66,5 +81,19 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         SetRoomInfo();
         string msg = $"\n<color=#ff0000>{otherPlayer.NickName}</color> left room";
+    }
+
+
+
+    public void OnSendClick()
+    {
+        string _msg = $"<color=#00ff00>[{PhotonNetwork.NickName}]</color> {msgIF.text}";
+        pv.RPC("SendChatMessage", RpcTarget.AllBufferedViaServer, _msg);
+    }
+
+    [PunRPC]
+    void SendChatMessage(string msg)
+    {
+        chatListText.text += $"{msg}\n";
     }
 }
